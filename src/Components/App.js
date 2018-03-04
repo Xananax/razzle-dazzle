@@ -3,7 +3,7 @@ import Route from 'react-router-dom/Route';
 import Link from 'react-router-dom/Link';
 import Switch from 'react-router-dom/Switch';
 import Home from './Pages/Home';
-import Fruits from './Fruits/FruitsContainer'
+import Fruits from '../services/Fruits/FruitsContainer'
 
 const App = () => (
   <div>

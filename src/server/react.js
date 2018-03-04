@@ -5,6 +5,8 @@ import { Router } from 'express'
 import App from '../Components/App';
 import renderPage from './renderPage'
 
+const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+
 const router = new Router()
 
 router.get( '/*', ( req, res ) => {

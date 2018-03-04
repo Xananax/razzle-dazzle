@@ -2,9 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser'
 import session from 'express-session'
 import api from './api'
-import react from 'react'
-
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+import react from './react'
 
 const server = express();
 

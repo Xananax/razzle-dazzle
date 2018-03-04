@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import fruits from "../Components/Fruits/api"
+import fruits from "../services/Fruits/api"
 
 const router = new Router()
 
