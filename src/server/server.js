@@ -1,10 +1,8 @@
-import App from '../Components/App';
-import React from 'react';
-import { StaticRouter } from 'react-router-dom';
 import express from 'express';
-import { renderToString } from 'react-dom/server';
-import renderPage from './renderPage'
+import bodyParser from 'body-parser'
+import session from 'express-session'
 import api from './api'
+import react from 'react'
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
@@ -12,34 +10,14 @@ const server = express();
 
 server.disable( 'x-powered-by' )
 
+server.use(bodyParser.urlencoded({ extended: true }))
+server.use(bodyParser.json())
+server.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
 server.use( express.static( process.env.RAZZLE_PUBLIC_DIR ) )
 
 server.use('/api',api)
 
-server.get( '/*', ( req, res ) => {
-
-  const context = {};
-
-  const html = renderToString(
-    <StaticRouter context={context} location={req.url}>
-      <App />
-    </StaticRouter>
-  );
-
-  if (context.url) {
-    return res.redirect(context.url);
-  }
-
-  const result = renderPage({
-    title: '',
-    lang: 'en',
-    stylesheets: [ assets.client.css ],
-    scripts: [ assets.client.js ],
-    html,
-  })
-
-  res.status(200).send(result);
-
-});
+server.use(react)
 
 export default server;

@@ -9,9 +9,14 @@
     "start:prod": "NODE_ENV=production node build/server.js"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "connect-flash": "^0.1.1",
     "express": "4.16.2",
+    "express-session": "^1.15.6",
     "knex": "^0.14.4",
     "passport": "^0.4.0",
+    "passport-github2": "^0.1.11",
+    "passport-local": "^1.0.0",
     "razzle": "0.8.12",
     "react": "16.2.0",
     "react-dom": "16.2.0",
