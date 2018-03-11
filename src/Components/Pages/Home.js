@@ -1,12 +1,11 @@
 import React from 'react';
-class Home extends React.Component {
-  render() {
-    return (
-      <div className="Home">
-        hello      
-      </div>
-    );
-  }
-}
+import Page from '../Utils/Page'
+
+export const Home = () => 
+  <Page title="home">
+    <div className="Home">
+      hello
+    </div>
+  </Page>
 
 export default Home;
