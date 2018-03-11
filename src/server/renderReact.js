@@ -3,7 +3,6 @@ import { StaticRouter } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import { Router } from 'express'
 import App from '../Components/App';
-import renderPage from './renderPage'
 
 /**
  * `is_production_build` will be false in development mode
@@ -31,7 +30,7 @@ const render_script = is_production_build
  * that can be sent to the browser
  * @param { title, stylesheets, scripts, lang, html } parameters an object of options to render the page 
  */
-export const page = ( { title, stylesheets, scripts, lang="en", html } ) =>
+export const renderPage = ( { title, stylesheets, scripts, lang="en", html } ) =>
 `<!doctype html>`+
   `<html lang="${lang}">`+
   `<head>`+
@@ -69,6 +68,8 @@ export const handleRequest = ( req, res ) => {
       return res.redirect(context.url);
   }
 
+  const status = context.status || 200
+
   const result = renderPage({
     title: '',
     lang: 'en',
@@ -77,7 +78,7 @@ export const handleRequest = ( req, res ) => {
     html
   })
 
-  res.status(200).send(result);
+  res.status(status).send(result);
 }
 
 
