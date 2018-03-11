@@ -2,10 +2,10 @@
   "name": "my-razzle-app",
   "version": "0.1.0",
   "license": "MIT",
-  "prettier":{
-    "arrowParens":"",
-    "singleQuote":true,
-    "semi":false
+  "prettier": {
+    "arrowParens": "",
+    "singleQuote": true,
+    "semi": false
   },
   "scripts": {
     "start": "razzle start",
@@ -25,6 +25,7 @@
     "razzle": "0.8.12",
     "react": "16.2.0",
     "react-dom": "16.2.0",
+    "react-helmet": "^5.2.0",
     "react-router-dom": "4.2.2",
     "sqlite3": "^3.1.13",
     "typestyle": "^1.7.1"
