@@ -58,7 +58,7 @@ export const handleRequest = ( req, res ) => {
   const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
   const context = {};
-
+  
   const html = renderToString(
     <StaticRouter context={context} location={req.url}>
       <App />
