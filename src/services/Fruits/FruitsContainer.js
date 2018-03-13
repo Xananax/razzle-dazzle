@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import FruitsList from './FruitsList'
 import FruitLoading from './FruitLoading'
 import FruitsError from './FruitsError'
+import fetchJSON from '../../utils/fetchJSON'
 
 class FruitsContainer extends Component{
   constructor(props){
@@ -9,14 +10,10 @@ class FruitsContainer extends Component{
     this.state = { fruits: null }
   }
   get(url){
-    return fetch(url)
-      .then( response => response.json() )
+    return fetchJSON(url)
       .then( response => {
-        if(response.error){
-          throw new Error(response.data)
-        }
         this.setState({ error:null })
-        return response.data
+        return response
       })
       .catch( err => this.setState({error:err.message}))
   }
