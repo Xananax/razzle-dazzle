@@ -36,15 +36,15 @@ export const edit = (article_id, {title, slug, text}) => {
   .update({ title, slug, text })
 }
 
-export const list = (sort,limit=10,offset=0,direction='desc') => {
-  if(!sort){
-    return knex.select('*').from('articles').limit(limit).offset(offset)
-  }
-  if(sort !== 'created_at' && sort!== 'slug' ){
+export const list = (sort='article_id',limit=10,offset=0,direction='desc') => {
+  const is_valid_property = /created_at|slug|title|article_id/.test(sort)
+
+  if(is_valid_property){
     return Promise.reject(new Error(`'${sort}' is not a valid ordering property`))
   }
+  
   direction = ( direction === 'asc' ? 'asc' : 'desc')
-  return knex('articles').orderBy(sort, direction).limit(limit).offset(offset)
+  return knex.select('*').from('articles').orderBy(sort, direction).limit(limit).offset(offset)
 }
 
 export const getOne = (property, value) => {
