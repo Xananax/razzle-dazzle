@@ -14,8 +14,8 @@ class ArticlesContainer extends Component{
       })
       .catch( err => this.setState({error:err.message}))
   }
-  loadList(){
-    const url = '/api/articles/list'
+  loadList(page=1){
+    const url = `/api/articles/list?page=${page}`
     this.get(url)
       .then( articles => {
         this.setState({ articles })

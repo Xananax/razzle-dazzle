@@ -31,7 +31,8 @@ router.get('/edit/:id', ( req, res ) => {
 })
 
 router.get('/list/:sort?/:dir?', ( req, res ) => {
-  const { page, amount } = req.query
+  const { amount } = req.query
+  const page = (req.query || 1) - 1
   const { sort, dir } = req.params
   return list(sort, page, amount, dir)
     .then( articles_list => makeResponse(res, 200, articles_list ))
