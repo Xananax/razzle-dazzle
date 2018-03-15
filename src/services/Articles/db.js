@@ -5,15 +5,23 @@ var knex = Knex({
   connection: {
     filename: "./mydb.sqlite"
   },
+  useNullAsDefault: true,
   migrations: {
-    tableName: 'migrations'
+    tableName: 'migrations',
+    directory:__dirname+'/migrations'
   }
 });
 
+knex.migrate.latest()
+
 export const add = ({title, slug, text}) => {
-  return knex('articles').insert({title, slug, text},'article_id').then( id => {
-    return { id, title, slug, text }
-  })
+  const new_article = {title, slug, text}
+  return validate(new_article)
+  .then(
+    article => knex('articles').insert(article,'article_id').then( ([article_id]) => {
+      return { article_id, title, slug, text }
+    })
+  )
 }
 
 export const remove = article_id => {
@@ -43,7 +51,7 @@ export const getOne = (property, value) => {
   if(property !== 'id' && property !== 'article_id' && property !== 'slug'){
     return Promise.reject(new Error(`'${property}' is not a valid key`))
   }
-  if(property === 'id'){ property === 'article_id' }
+  if(property === 'id'){ property = 'article_id' }
   return knex.select('*').from('articles').where({[property]:value}).limit(1)
 }
 
@@ -53,7 +61,20 @@ export const search = (property, value, limit=10) => {
   if(property !== 'id' && property !== 'article_id' && property !== 'slug'){
     return Promise.reject(new Error(`'${property}' is not a valid key`))
   }
-  if(property === 'id'){ property === 'article_id' }
+  if(property === 'id'){ property = 'article_id' }
   return knex.select('*').from('articles').where(property, 'like', `%${value}%`).limit(limit)
 }
 
+export const validate = (article) => {
+  if(!article){ return Promise.reject(new Error(`no article provided`)) }
+  const errors = []
+  if(!article.title){ errors.push(`no \`title\` provided`) }
+  if(!article.slug){ errors.push(`no \`slug\` provided`)}
+  if(!article.text){ errors.push(`no \`text\` provided`)}
+  if(errors.length){
+    const error_message = errors.join(', ')
+    const error = new Error(error_message)
+    return Promise.reject(error)
+  }
+  return Promise.resolve(article)
+}
