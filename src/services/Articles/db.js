@@ -42,7 +42,7 @@ export const list = (sort='article_id',limit=10,offset=0,direction='desc') => {
   if(is_valid_property){
     return Promise.reject(new Error(`'${sort}' is not a valid ordering property`))
   }
-  
+
   direction = ( direction === 'asc' ? 'asc' : 'desc')
   return knex.select('*').from('articles').orderBy(sort, direction).limit(limit).offset(offset)
 }
@@ -57,12 +57,13 @@ export const getOne = (property, value) => {
 
 export const getOneById = id => getOne('article_id',id)
 
-export const search = (property, value, limit=10) => {
+export const search = (property, value, sort='article_id',limit=10,offset=0,direction='desc') => {
   if(property !== 'id' && property !== 'article_id' && property !== 'slug'){
     return Promise.reject(new Error(`'${property}' is not a valid key`))
   }
   if(property === 'id'){ property = 'article_id' }
-  return knex.select('*').from('articles').where(property, 'like', `%${value}%`).limit(limit)
+  direction = ( direction === 'asc' ? 'asc' : 'desc')
+  return knex.select('*').from('articles').where(property, 'like', `%${value}%`).orderBy(sort, direction).limit(limit).offset(offset)
 }
 
 export const validate = (article) => {
